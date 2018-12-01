@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+      <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+      <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+      <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+    </head>
+    <body>
+           
+        <div id="root">
+                
+
+        </div>
+        <script type="text/babel">
+            const rootHandle=document.getElementById('root');
+            var data;
+           
+            function save(){
+            console.log(data)
+            let quotes=localStorage.getItem('quotes')?JSON.parse(localStorage.getItem('quotes')):[];
+            quotes.push(data);
+            localStorage.setItem("quotes",JSON.stringify(quotes));
+            }
+            
+           
+        function QuotifyComponent(props){
+         return (<div>
+                  <h2 align="center" >QUOTIFY</h2>
+                  <a href=""  onClick={App}>quotify</a>
+                  <h2> {props.quote.quote} </h2><br/>
+                   <h3 align="center"> -{props.quote.author}</h3>
+                  <button  onClick={App}>Change Quote</button>
+                  <div align="center">
+                  <button onClick={save}>Save</button>
+                  </div>
+                </div>)
+     }
+        function App(){
+              let xhr = new XMLHttpRequest();
+                xhr.open('GET','https://talaikis.com/api/quotes/random/');
+                xhr.onload = function(){
+                data = JSON.parse(xhr.responseText);
+                ReactDOM.render(<QuotifyComponent quote={data}/>,rootHandle);
+    }
+        xhr.send();
+        }
+        
+    App();
+        </script>
+    </body>
+</html>
